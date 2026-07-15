@@ -1,0 +1,81 @@
+//This program has an array of doubles. The constructor accepts an integer argument that specifies the size of the array and then dynamically allocates the array to hold that many numbers. The destructor frees the memory. There are also member functions that store a value at whichever element, finds the highest and lowest value in the array, and also finds the averages of all the values in the array.
+#include <iostream>
+#include <memory>
+
+class Array
+{
+private:
+    double *amount;
+    int size;
+    
+public:
+    
+    Array(int s){
+        size = s;
+        amount = new double[size];
+    }
+    
+    void store(int value, int index){
+        amount[index] = value;
+    }
+    
+    double getNumber(int index){
+        return amount[index];
+    }
+    
+    double getHighest() const{
+        double highest = amount[0];
+        
+        for(int i = 1; i < size; i++){
+            if(amount[i] > highest)
+                highest = amount[i];
+        }
+        return highest;
+    }
+    
+    double getLowest() const{
+        double lowest = amount[0];
+        
+        for(int i = 1; i < size; i++){
+            if(amount[i] < lowest)
+                lowest = amount[i];
+        }
+        return lowest;
+    }
+    
+    float getAverage() const
+    {
+        double sum = 0;
+
+        for (int i = 0; i < size; i++)
+        {
+            sum += amount[i];
+        }
+
+        return sum / size;
+    }
+    //destructor
+    ~Array(){
+        delete [] amount;
+    }
+};
+
+int main()
+{
+    Array arr(5);
+    
+    arr.store(10, 0);
+    arr.store(20, 1);
+    arr.store(30, 2);
+    arr.store(40, 3);
+    arr.store(50, 4);
+    
+    std::cout << arr.getNumber(3) << "\n";
+    std::cout << "Lowest value: " << arr.getLowest() << "\n";
+    std::cout << "Highest value: " << arr.getHighest() << "\n";
+    std::cout << "Average: " << arr.getAverage() << "\n";
+
+    
+
+    return 0;
+}
