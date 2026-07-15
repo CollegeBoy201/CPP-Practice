@@ -1,0 +1,98 @@
+//this program is a game of spin the die until you get an exact total of 21. Its a game between the pc and the user. Once someone gets 21, they win, if they don't then the game will continue and reset if someone goes over 21 points.
+#include <iostream>
+#include <random>
+
+class TwentyOne
+{
+private:
+    int value;  //The die's values
+    
+public:
+    //constructor
+    TwentyOne(){
+        roll(); //calls the roll function
+    }
+    
+    //this function creates a random number generator where the minimum is 1 and maximum is 6
+    void roll(){
+        const int MIN = 1;
+        const int MAX = 6;
+        std::random_device engine;
+        std::uniform_int_distribution<int> diceValue(MIN, MAX);
+        value = diceValue(engine);  //'value' is initialized to whatever number the RNG gets
+    }
+    
+    //getter functions that returns 'value'
+    int getValue() {return value;}
+};
+
+int main()
+{
+    char choice, roll;  //for the user to input their choice
+    int pcValues = 0;   //the total points the pc has
+    int userValues = 0; //the total points the user has
+    
+    do{
+        do{
+            std::cout << "PC will roll the dice...\n";
+            TwentyOne pcDie;    //constructor is called and calls roll() to get the random number generator
+            std::cout << "PC got " << pcDie.getValue() << "\n";
+            pcValues += pcDie.getValue();   //add the points the pc got
+            std::cout << "PC total " << pcValues << "\n\n";
+            
+            //if pc gets over 21 points in value, then their pc score is reset to 0
+            if(pcValues > 21){
+                std::cout << "PC went over 21, resetting PC score.\n\n";
+                pcValues = 0;
+            }
+            
+            //ask the user to roll dice
+            std::cout << "You will roll the dice...\n";
+            std::cout << "Roll the dice (r): ";
+            std::cin >> roll;
+            
+            TwentyOne userDie;  //constructor is called and calls roll() to get the random number generator
+            std::cout << "You got " << userDie.getValue() << "\n";
+            userValues += userDie.getValue();   //add the points the user got
+            std::cout << "Your total " << userValues << "\n\n";
+            
+            //if user points go above 21, then their points are reset 0
+            if(userValues > 21){
+                std::cout << "You went over 21, resetting your score to 0.\n\n";
+                userValues = 0;
+            }
+            
+            //if pc and user both get 21 in a round then they draw
+            if(pcValues != 21 && userValues != 21){
+                std::cout << "No one won. Spin again!\n";
+            }
+            
+        }while(pcValues != 21 && userValues != 21);    //nested do while loop breaks if this condition is false
+        
+        //display the pc and user points if they win
+        if(pcValues == 21 && userValues == 21){
+            std::cout << "The PC has " << pcValues << "\n";
+            std::cout << "The PC has " << pcValues << "\n";
+            std::cout << "Both of yall won! lol.\n";
+        }
+        //display the pc points if they win
+        else if(pcValues == 21){
+            std::cout << "The PC has " << pcValues << "\n";
+            std::cout << "The PC wins!\n";
+        }
+        //display the user points if they win
+        else{
+            std::cout << "The user has " << userValues << "\n";
+            std::cout << "You win!\n";
+        }
+        
+        std::cout << "Do you want to play again? ";
+        std::cin >> choice;
+        if(choice == 'Y' || choice == 'y'){
+            pcValues = 0;
+            userValues = 0;
+        }
+    }while(choice == 'Y' || choice == 'y'); //loop breaks if the user DOES not type in y
+
+    return 0;
+}
