@@ -1,0 +1,71 @@
+#include <iostream>  
+#include <memory> //for smart pointers 
+#include <string> 
+using std::string;
+//method 3: auto returnPtr = testFunction(std::unique_ptr<int[]> &ptr2, int size) 
+//std::unique_ptr<int[]> testFunction(std::unique_ptr<int[]> &ptr2, int size) 
+
+//method 2: auto returnPtr = testFunction(ptr.get(), size); 
+//std::unique_ptr<int[]> testFunction(int *ptr2, int size) 
+
+//method 1: auto returnPtr = testFunction(std::move(ptr),size); 
+//std::unique_ptr<int[]> testFunction(std::unique_ptr<int[]> &ptr2, int size); 
+
+
+std::unique_ptr<int[]> testFunction(int* ptr, int capacity, int size) {
+    int value;
+
+    while (true) {
+
+        std::cout << "Enter value: ";
+        std::cin >> value;
+
+        if (value == -1) {
+            break;
+        }
+
+        if (size == capacity) {
+            int newCapacity = capacity * 2;
+
+            auto newArr = std::make_unique<int[]>(newCapacity);
+
+            for (int i = 0; i < size; i++) {
+                newArr[i] = ptr[i];
+            }
+
+
+            ptr = newArr.get();
+            capacity = newCapacity;
+
+            std::cout << "Array expanded to capacity " << capacity << ".\n";
+        }
+
+        ptr[size] = value;
+        size++;
+    }
+}
+
+int main() {
+    int capacity = 5;   // how much space the array currently has
+    int size = 0;       // how many values are actually stored
+
+    auto arr = std::make_unique<int[]>(capacity);
+
+    std::cout << "Enter numbers. Type -1 to stop.\n";
+
+    testFunction(arr.get(), capacity, size);
+
+
+    std::cout << "\nArray contents:\n";
+
+    for (int i = 0; i < size; i++) {
+        std::cout << arr[i] << " ";
+    }
+
+    std::cout << "\nFinal size: " << size << "\n";
+    std::cout << "Final capacity: " << capacity << "\n";
+
+    arr = nullptr;
+
+    return 0;
+}
