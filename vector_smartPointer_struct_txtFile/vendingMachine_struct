@@ -1,0 +1,160 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+using std::string;
+
+
+struct DrinkMachine
+{
+    string drinkName = "";
+    double drinkCost = 0.0;
+    int drinksLeft = 0;
+    
+};
+
+void checkLogic(double, const double);
+
+int main()
+{
+    //user input variables
+    string choice;
+    string drink;
+    double amount;
+    const double MAX_AMOUNT = 1.00;
+    
+    //DM[0].drinkName = "Cola";
+    //DM[0].drinkCost = 2.50;
+    //DM[0].drinksLeft = 20;
+    DrinkMachine *DM = new DrinkMachine[5]{
+        {"Coca Cola", 2.50, 20},
+        {"Root Beer", 2.50, 20},
+        {"Lemon Lime", 2.50, 20},
+        {"Grape Soda", 2.75, 20},
+        {"Cream Soda", 2.75, 20}
+    };
+    
+    do{
+        std::cout << "Would you like to 'buy' a drink or 'quit'? ";
+        std::cin >> choice;
+        
+        //show menu
+        if(choice == "buy"){
+            std::cout << "-----------------------------------------\n";
+            std::cout << "| Drink Name  | Cost | Supply|\n";
+            std::cout << " Coca Cola (1) $2.50 "<<    DM[0].drinksLeft<<"\n";
+            std::cout << " Root Beer (2) $2.50 "<<    DM[1].drinksLeft<<"\n";
+            std::cout << " Lemon-Lime(3) $2.50 "<<    DM[2].drinksLeft<<"\n";
+            std::cout << " Grape Soda(4) $2.75 "<<    DM[3].drinksLeft<<"\n";
+            std::cout << " Cream Soda(5) $2.75 "<<    DM[4].drinksLeft<<"\n";
+            std::cout << "-----------------------------------------\n\n";
+            //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+            
+            std::cout << "Select a drink: ";
+            std::cin >> drink;
+            
+            std::cout << std::fixed << std::setprecision(2);
+            
+            while(drink == "1"){        //COCA COLA
+                double colaCost = 2.50;
+                
+                while(colaCost != 0.00){
+                    std::cout << "$" << colaCost << " Cost.\n";
+                    std::cout << "How much money are you inserting? $";
+                    std::cin >> amount;
+                    checkLogic(amount, MAX_AMOUNT);
+                    colaCost -= amount;
+                }
+                if(colaCost == 0.00){
+                    DM[0].drinksLeft--;
+                    std::cout << DM[0].drinksLeft << " cokes left.\n";
+                    break;
+                }
+                
+            }
+            
+            while(drink == "2"){        //ROOT BEER
+                double rootBeerCost = 2.50;
+                
+                while(rootBeerCost != 0.00){
+                    std::cout << "$" << rootBeerCost << " Cost.\n";
+                    std::cout << "How much money are you inserting? $";
+                    std::cin >> amount;
+                    checkLogic(amount, MAX_AMOUNT);
+                    rootBeerCost -= amount;
+                }
+                if(rootBeerCost == 0.00){
+                    DM[1].drinksLeft--;
+                    std::cout << DM[1].drinksLeft << " rootbeers left.\n";
+                    break;
+                }
+                
+            }
+            
+            while(drink == "3"){        //LEMON LIME
+                double lemonLimeCost = 2.50;
+                
+                while(lemonLimeCost != 0.00){
+                    std::cout << "$" << lemonLimeCost << " Cost.\n";
+                    std::cout << "How much money are you inserting? $";
+                    std::cin >> amount;
+                    checkLogic(amount, MAX_AMOUNT);
+                    lemonLimeCost -= amount;
+                }
+                if(lemonLimeCost == 0.00){
+                    DM[2].drinksLeft--;
+                    std::cout << DM[2].drinksLeft << " lemon limes left.\n";
+                    break;
+                }
+                
+            }
+            
+            while(drink == "4"){        //GRAPE SODA
+                double grapeSodaCost = 2.75;
+                
+                while(grapeSodaCost != 0.00){
+                    std::cout << "$" << grapeSodaCost << " Cost.\n";
+                    std::cout << "How much money are you inserting? $";
+                    std::cin >> amount;
+                    checkLogic(amount, MAX_AMOUNT);
+                    grapeSodaCost -= amount;
+                }
+                if(grapeSodaCost == 0.00){
+                    DM[3].drinksLeft--;
+                    std::cout << DM[3].drinksLeft << " grape sodas left.\n";
+                    break;
+                }
+                
+            }
+            
+            while(drink == "5"){        //COCA COLA
+                double creamSodaCost = 2.75;
+                
+                while(creamSodaCost != 0.00){
+                    std::cout << "$" << creamSodaCost << " Cost.\n";
+                    std::cout << "How much money are you inserting? $";
+                    std::cin >> amount;
+                    checkLogic(amount, MAX_AMOUNT);
+                    creamSodaCost -= amount;
+                }
+                if(creamSodaCost == 0.00){
+                    DM[4].drinksLeft--;
+                    std::cout << DM[4].drinksLeft << " cream sodas left.\n";
+                    break;
+                }
+                
+            }
+        }
+    }while(choice != "quit");
+    delete [] DM;
+    DM = nullptr;
+
+    return 0;
+}
+
+void checkLogic(double amount, const double maxAmount){
+    while(amount < 0.00 || amount > maxAmount){
+        std::cout << "Enter an amount that is at max " << maxAmount << "\n";
+        std::cout << "How much money are you inserting? $";
+        std::cin >> amount;
+    }
+}
