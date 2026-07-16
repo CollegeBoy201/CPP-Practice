@@ -1,0 +1,124 @@
+#include <iostream>
+#include <vector>
+#include <string>
+/*Note: I learned that I was getting an exception that basically i was trying to access testScore1[i] before ever growing the vector
+        resulting in a crash. I had: std::cin >> testScore1[i]; and: testScores1.push_back(testScore1[i])but it had nothing inside it,
+        so i was accessing invalid memory.
+        I fixed it so now the user has store data in a regular variable first. Then push that data(variable) inside the vector.
+        This is the proper way to do it. My way was confusing Now the code is: std::cin >> testScores; testScores1.push_back(testscores);
+        */
+int main() {
+    //vector to hold the student names
+    std::vector<std::string> stuNames(5);
+    //vector to hold the letter grades
+    std::vector<char> letGrades(5);
+    //holds the testscores
+    double testscores;
+    //each total variable holds the total for each test score grade
+    double total = 0;
+    //to calculate the average
+    double average = 0;
+
+    //vectors that hold a set of 4 test scores for each student
+    std::vector<double> testScore1;
+    std::vector<double> testScore2;
+    std::vector<double> testScore3;
+    std::vector<double> testScore4;
+
+    //loop that allows user to enter the 5 student names
+    std::cout << "Enter the student name and their test score for the 5 students.\n";
+    for (int i = 0; i < 5; i++) {
+        std::cout << "Name " << i + 1 << ": ";
+        std::cin >> stuNames[i];
+        std::cout << std::endl;
+
+        std::cout << "Test Score 1" << " Grade: ";
+        std::cin >> testscores;
+        while (testscores < 0 || testscores > 100) {
+            std::cout << "Test score can't be less than 0 or greater than 100.\n";
+            std::cout << "Test Score 1" << " Grade: ";
+            std::cin >> testscores;
+        }
+        testScore1.push_back(testscores);        
+
+        std::cout << "Test Score 2" << " Grade: ";
+        std::cin >> testscores;
+        while (testscores < 0 || testscores > 100) {
+            std::cout << "Test score can't be less than 0 or greater than 100.\n";
+            std::cout << "Test Score 2" << " Grade: ";
+            std::cin >> testscores;
+        }
+        testScore2.push_back(testscores);
+        
+        std::cout << "Test Score 3" << " Grade: ";
+        std::cin >> testscores;
+        while (testscores < 0 || testscores > 100) {
+            std::cout << "Test score can't be less than 0 or greater than 100.\n";
+            std::cout << "Test Score 3" << " Grade: ";
+            std::cin >> testscores;
+        }
+        testScore3.push_back(testscores);
+
+        std::cout << "Test Score 4" << " Grade: ";
+        std::cin >> testscores;
+        while (testscores < 0 || testscores > 100) {
+            std::cout << "Test score can't be less than 0 or greater than 100.\n";
+            std::cout << "Test Score 4" << " Grade: ";
+            std::cin >> testscores;
+        }
+        testScore4.push_back(testscores);
+
+        //calculating total
+        total = testScore1[i] + testScore2[i] + testScore3[i] + testScore4[i];
+        //calculating average
+        average = total / 4;
+
+        //shows the average
+        std::cout << "Average: " << average << "\n";
+
+        if (average >= 90 && average <= 100) {
+            letGrades[i] = 'A';
+            std::cout << "Grade: " << letGrades[i];
+        }
+        else if (average >= 80 && average <= 89) {
+            letGrades[i] = 'B';
+            std::cout << "Grade: " << letGrades[i];
+        }
+        else if (average >= 70 && average <= 79) {
+            letGrades[i] = 'C';
+            std::cout << "Grade: " << letGrades[i];
+        }
+        else if (average >= 60 && average <= 69) {
+            letGrades[i] = 'D';
+            std::cout << "Grade: " << letGrades[i];
+        }
+        else if(average < 59){
+            letGrades[i] = 'F';
+            std::cout << "Grade: " << letGrades[i];
+        }
+        std::cout << std::endl;
+    }
+
+    return 0;
+}
+/*int total = 0;
+
+for(int num : values){
+    total += num;
+}
+
+std::cout << "The total is " << total << std::endl;
+
+int highest = values[0];
+int lowest = values[0];
+
+//"for each int value inside 'values', store it in num"
+for(int num : values){
+    if(num > highest)
+        highest = num;
+
+    if(num < lowest)
+        lowest = num;
+}
+std::cout << "The highest of the elements is " << highest << std::endl;
+std::cout << "The lowest of the elements is " << lowest << std::endl;*/
