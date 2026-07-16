@@ -1,0 +1,85 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+int main(){
+    //vector one for the official answers
+    std::vector<char> cAnswers{'A', 'D' ,'B' ,'B' ,'C', 'B', 'A', 'B', 'C', 'D', 'A', 'C', 'D', 'B', 'D', 'C', 'C', 'A', 'D','B'};
+    //vector 2 for storing the student answers
+    std::vector<char> sAnswers;
+    
+    char answers;   //for user input
+    
+    //prompt
+    std::cout << "Enter the students answers for the 20 questions.\n";
+    for(int i = 0; i < cAnswers.size(); i++){
+        std::cout << "Question " << i + 1 << ": ";
+        std::cin >> answers;
+        
+        //error handling
+        while(answers != 'A' && answers != 'B' && answers != 'C' && answers != 'D'){
+            std::cout << "Answer must be A B C D\n";
+            std::cout << "Question " << i + 1 << ": ";
+            std::cin >> answers;
+        }
+        sAnswers.push_back(answers);
+
+        
+    }
+    std::cout << std::endl << std::endl;    //for spacing
+    
+    //to avoid hardcoding
+    std::string passed = "Passed";
+    std::string failed = "Failed";
+    
+    //to keep a count of points
+    int count = 20;
+    
+    //loop through vector and find which answers are wrong and correct
+    for(int i = 0; i < cAnswers.size(); i++){ //i=1
+        if(cAnswers[i] == sAnswers[i]){
+            std::cout << "Q " << i + 1 << ": " << cAnswers[i] << "\n";
+            std::cout << "Student chose: " << sAnswers[i] << " CORRECT\n";
+        }
+        
+        
+        else if(cAnswers[i] != sAnswers[i]){
+            std::cout << "Q " << i + 1 << ": " << cAnswers[i] << std::endl;
+            std::cout << "Student chose: " << sAnswers[i] << " WRONG" << "\n";
+            count--;
+        }
+        
+    }
+    
+    //to score the points logic
+    if(count == 20)
+        std::cout << "Exam " << passed << ". Score: " << count << " + all answers correct.\n";
+    else if(count >= 15 && count < 20)
+        std::cout << "Exam " << passed << ". Score: " << count << " + minimum of 15 points achieved\n";
+    else if(count < 15 && count >= 1)
+        std::cout << "Exam " << failed << ". Score: " << count << " + minimum of 15 points not achieved\n";
+    else
+        std::cout << "Exam " << failed << ". Score: " << count << " + all answers incorrect\n";
+    return 0;
+}
+    /*int total = 0;
+    
+    for(int num : values){
+        total += num;
+    }
+    
+    std::cout << "The total is " << total << std::endl;
+    
+    int highest = values[0];
+    int lowest = values[0];
+    
+    //"for each int value inside 'values', store it in num"
+    for(int num : values){
+        if(num > highest)
+            highest = num;
+        
+        if(num < lowest)
+            lowest = num;
+    }
+    std::cout << "The highest of the elements is " << highest << std::endl;
+    std::cout << "The lowest of the elements is " << lowest << std::endl;*/
