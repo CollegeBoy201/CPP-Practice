@@ -1,0 +1,155 @@
+//This program uses class aggregation to simulate a police officer issuing an ilegally parked car, a parking ticket.
+#include <iostream>
+using std::string;
+
+class ParkedCar{
+private:
+    string make, model, color, plateNum;    //the car details
+    int numMinParked;   //number of minutes parked
+
+public:
+    //Default constructor
+    ParkedCar():
+    make(""), model(""), color(""), plateNum(""), numMinParked(0){}
+    
+    //constructor
+    ParkedCar(string mk, string mdl, string clr, string plateNumber, int numMinPrkd):
+    make(mk), model(mdl), color(clr), plateNum(plateNumber), numMinParked(numMinPrkd){}
+    
+    //SETTERS
+    void setMake(string mk){make = mk;}
+    void setModel(string mdl){model = mdl;}
+    void setColor(string clr){color = clr;}
+    void setPlateNumber(string pltNum){plateNum = pltNum;}
+    void setNumMinParked(int nmMinPrkd){numMinParked = nmMinPrkd;}
+    
+    //GETTERS
+    string getMake()const {return make;}
+    string getModel()const {return model;}
+    string getColor()const {return color;}
+    string getPlateNumber()const {return plateNum;}
+    int getNumMinParked() const{return numMinParked;}
+};
+
+class ParkingMeter{
+private:
+    int minutesBought;
+    
+public:
+    //default constructor
+    ParkingMeter():minutesBought(0){}
+    
+    //constructor
+    ParkingMeter(int minBought): minutesBought(minBought){}
+    
+    
+    //SETTERS
+    void setMinutesBought(int minBought){minutesBought = minBought;}
+    
+    //GETTERS
+    int getMinutesBought()const{return minutesBought;}
+};
+
+class ParkingTicket{
+private:
+    ParkedCar car;  //to initialize the all of the car's attributes if a parking ticket needs to be made. make, model, color, etc
+    ParkingMeter minutesBought; //Parking meter's minutes that were bought by the user
+    double fineAmount;  //fine amount = $25.00
+    string copName; //cop name for the printing of ticket
+    int copBadgeNum;    //cop badge number for printing of the ticket
+public:
+    //default constructor to make the compiler fucking compile
+    ParkingTicket(): car(), minutesBought(), fineAmount(0), copName(""), copBadgeNum(0){}
+    
+    //constructor
+    ParkingTicket(const ParkedCar &carObj, int minBought, double fine,  const string &copName_, const int badgeNum):
+    car(carObj),    //instead of doing make, model, etc. Just pass the car object with everything in it. makes it more cleaner
+    minutesBought(minBought),
+    fineAmount(fine),
+    copName(copName_),
+    copBadgeNum(badgeNum)
+    {}
+    
+    //this function prints the ticket information: cop, fine, car details.
+    void printTicket(){
+        std::cout << "\nTicket violation.\n\n";
+        std::cout << "Officer Name: " << copName << "\n";
+        std::cout << "Officer badge number: " << copBadgeNum << "\n";
+        std::cout << "Fine amount $" << fineAmount << "\n\n";
+        
+        std::cout << "Vehicle details\n\n";
+        std::cout << "Make: " << car.getMake() << "\n";
+        std::cout << "Model: " << car.getModel() << "\n";
+        std::cout << "Color: " << car.getColor() << "\n";
+        std::cout << "Plate number: " << car.getPlateNumber() << "\n";
+        std::cout << "Minutes bought: " << minutesBought.getMinutesBought() << "\n";
+        std::cout << "Minutes parked: " << car.getNumMinParked() << "\n";
+    }
+};
+
+class PoliceOfficer{
+private:
+    string policeName;  //cop name
+    int badgeNumber;    //cop badge number
+public:
+    //default constructor
+    PoliceOfficer(): policeName("Hank"), badgeNumber(3154){}
+    
+    //GETTERS
+    string getPoliceName()const {return policeName;}
+    int getBadgeNumber()const {return badgeNumber;}
+    
+    //function examines the minutes that were bought vs the actual time they were parked to see if parked illegally.
+    //return only if time parked is greater then the minutes purchased
+    bool examineCar(const ParkedCar &car, const ParkingMeter &minPurchased){
+        return car.getNumMinParked() > minPurchased.getMinutesBought();
+    }
+};
+
+int main()
+{
+    ParkedCar car;  //create a ParkedCar object to later set the usr inputted values
+    string userMake, userModel, userColor, userPlateNumber; //for user input
+    int userMinutes, userMinParked; //for user input
+    std::cout << "You entered the garage. Enter your vehicle details.\n";
+    
+    std::cout << "Make: ";
+    std::cin >> userMake;
+    car.setMake(userMake);  //set the data with 'car'
+    
+    std::cout << "Model: ";
+    std::cin >> userModel;
+    car.setModel(userModel);  //set the data with 'car'
+    
+    std::cout << "Color: ";
+    std::cin >> userColor;
+    car.setColor(userColor);  //set the data with 'car'
+    
+    std::cout << "Plate Number: ";
+    std::cin >> userPlateNumber;
+    car.setPlateNumber(userPlateNumber);  //set the data with 'car'
+    
+    std::cout << "Minutes bought: ";
+    std::cin >> userMinutes;
+    ParkingMeter MinutesPurchased(userMinutes);  //set the data with 'ParkingMeter'
+
+    std::cout << "Minutes actually parked: ";
+    std::cin >> userMinParked;
+    car.setNumMinParked(userMinParked);  //set the data with 'car'
+    
+    PoliceOfficer cop; //create a PoliceOfficer object
+    
+    //if returned true, then a parking ticket is created
+    bool yesTicketOrNoTicket = cop.examineCar(car, MinutesPurchased);
+        
+    //if parked car ilegally, then ticket will be created
+    if(yesTicketOrNoTicket){
+        ParkingTicket pt;   //so compiler will stop bitching
+        pt.printTicket();   //prints the parking ticket
+    }
+    else
+        //if car was not parked illegally, then no ticket will be issued
+        std::cout << "No ticket issued.\n";
+    
+    return 0;
+}
