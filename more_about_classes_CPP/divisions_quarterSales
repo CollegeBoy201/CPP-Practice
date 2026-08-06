@@ -1,0 +1,74 @@
+//This program asks the user to put into the quarter sales for six divisions and then displays the total division sales
+#include <iostream>
+using std::string;
+
+class DivSales
+{
+private:
+    //is shared amongst all objects. Holds the total sales for all divisions in the year. Does not belong to the class
+    inline static double totalSales = 0.0;
+    double divQtrSales[4];  //holds the sales for a division in the year
+public:
+    //takes in all four quarter sales. It stores each value in each quarter to corresponding subscripts in divQtrSales[]
+    void QuarterSales(double q1, double q2, double q3, double q4){
+        divQtrSales[0] = q1;
+        divQtrSales[1] = q2;
+        divQtrSales[2] = q3;
+        divQtrSales[3] = q4;
+        
+        //totalSales adding up all of the quarter sales for each division that get passed into this function
+        totalSales += (q1 + q2 + q3 + q4);
+    }
+    
+    //whenever we display the sales, we call this getter function to return to the value in each index in a loop in main()
+    double getIndex(int index){
+        return divQtrSales[index];
+    }
+    
+    //we call this static function to return totalSales since its a private member
+    static double getTotalSales() {return totalSales;}
+};
+
+int main()
+{
+    //SIZE = 6 represents six divisions
+    const int SIZE = 6;
+    DivSales divSales[SIZE];
+    double q1, q2, q3, q4;
+    
+    //asks user to enter the quarter sales for each division
+    std::cout << "Enter the sales for all quarters.\n";
+    for(int i = 0; i < SIZE; i++){
+        std::cout << "\n\nDivision " << i + 1 << "\n\n";
+        
+        std::cout << "Quarter 1: ";
+        std::cin >> q1;
+        std::cout << "Quarter 2: ";
+        std::cin >> q2;
+        std::cout << "Quarter 3: ";
+        std::cin >> q3;
+        std::cout << "Quarter 4: ";
+        std::cin >> q4;
+        
+        //calls QuarterSales to assign the quarter sales of each division in divQtrSales and to assign the total of all divisions into 'totalSales'
+        divSales[i].QuarterSales(q1, q2, q3, q4);
+        
+    }
+    
+    //shows the table
+    std::cout << "Here is the table.\n\n";
+    for(int i = 0; i < SIZE; i++){
+        std::cout << "\n\nDivision " << i + 1 << "\n";
+        
+        //this inner j loop will display all quarters before iterating onto the outer i loop
+        for(int j = 0; j < 4; j++){
+            std::cout << "Quarter " << j + 1 << ": ";
+            std::cout << divSales[i].getIndex(j);
+            std::cout << " ";
+        }
+    }
+    
+    //shows the total sales of all divisions by calling the getTotalSales() function
+    std::cout << "\n\nTotal sales of all divisions: " << DivSales::getTotalSales() << "\n";
+    return 0;
+}
