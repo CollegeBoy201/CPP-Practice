@@ -1,0 +1,55 @@
+//This program has 3 maps that uses the same key but have different values such as room number, instructor name, and start time. User enters the key that is the course number and then using iterators and their ->first and ->second, finds the room numbers, instructor names, and start times
+#include <iostream>
+#include <unordered_map>
+#include <iomanip>
+using std::string;
+
+int main(){
+    std::unordered_map<string, int>courseToRoomNum = {//map with key:course number Value: room number
+        {"CS101", 3004},{"CS102", 4501},
+        {"CS103", 6755},{"NT110",1244},{"CM241", 1411}
+    };
+    
+    std::unordered_map<string, string> courseToInstructor = {//map with key:course number Value: instructor name
+        {"CS101", "Haynes"},{"CS102", "Alvarado"},
+        {"CS103", "Rich"},{"NT110","Burke"},{"CM241", "Lee"}
+    };
+    
+    std::unordered_map<string, double> courseToTime = {//map with key:course number Value: class start time
+        {"CS101", 8.50},{"CS102", 9.00},
+        {"CS103", 10.00},{"NT110",11.00},{"CM241", 1.00}
+    };
+    
+    string courseNum;
+    //ask user to enter the course number
+    std::cout << "Enter a course number for the Fall 2026 semester: ";
+    std::cin >> courseNum;
+    
+    auto it1 = courseToRoomNum.find(courseNum); //returns an iterator to the course number
+    auto it2 = courseToInstructor.find(courseNum);//returns an iterator to the course number
+    auto it3 = courseToTime.find(courseNum);//returns an iterator to the course number
+
+    std::cout << std::fixed << std::setprecision(2);    // to display the time by 2 decimal points
+    
+    //display the appropriate key value pairs
+    if (it1 != courseToRoomNum.end())
+    {
+        std::cout << "Room Number: " << it1->second << "\n";
+        std::cout << "Instructor: " << it2->second << "\n";
+        
+        if(it3->second < 8.50){
+            std::cout << "Meeting time: " << it3->second << "pm\n";
+        }
+        else
+            std::cout << "Meeting time: " << it3->second << "am\n";
+
+        
+    }
+    else
+    {
+        std::cout << "Room number not found.\n";
+    }
+    return 0;
+}
+
+
