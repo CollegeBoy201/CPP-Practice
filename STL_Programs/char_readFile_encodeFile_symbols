@@ -1,0 +1,63 @@
+/*The program reads one character at a time from the text file using get(), which reads spaces and newlines. Without it, it wont do that. Each character is stored in the variable 'ch'. The program then searches the codes map using find(ch). If the character exists as a key in the map (meaning find() did not return codes.end()), the program prints the corresponding encoded value (it->second). If the character is not found in the map, such as a space or punctuation mark, the program simply prints the original character. This process repeats until get() reaches the end of the file.*/
+//wop.txt is included in this program
+#include <iostream>
+#include <map>
+#include<fstream>
+using std::string;
+
+int main(){
+    //map
+    std::map<char, char> codes ={
+        {'A', '!'}, {'a', '1'},
+        {'B', '@'}, {'b', '2'},
+        {'C', '#'}, {'c', '3'},
+        {'D', '$'}, {'d', '4'},
+        {'E', '%'}, {'e', '5'},
+        {'F', '^'}, {'f', '6'},
+        {'G', '&'}, {'g', '7'},
+        {'H', '*'}, {'h', '8'},
+        {'I', '('}, {'i', '9'},
+        {'J', ')'}, {'j', '0'},
+        {'K', '-'}, {'k', '='},
+        {'L', '+'}, {'l', '_'},
+        {'M', '['}, {'m', ']'},
+        {'N', '{'}, {'n', '}'},
+        {'O', ':'}, {'o', ';'},
+        {'P', '<'}, {'p', '>'},
+        {'Q', '?'}, {'q', '/'},
+        {'R', '|'}, {'r', '\\'},
+        {'S', '~'}, {'s', '`'},
+        {'T', ','}, {'t', '.'},
+        {'U', 'A'}, {'u', 'a'},
+        {'V', 'B'}, {'v', 'b'},
+        {'W', 'C'}, {'w', 'c'},
+        {'X', 'D'}, {'x', 'd'},
+        {'Y', 'E'}, {'y', 'e'},
+        {'Z', 'F'}, {'z', 'f'}
+    };
+    
+    std::ifstream woptxt("wop.txt");    //create and open a txt file
+    char ch;  //will store one word from the file at a time
+    
+    //if error opening file, display this
+    if(!woptxt){
+        std::cout << "Error opening the file.\n";
+    }
+    //this loop reads the characters, spaces, and newlines too until it reaches the end of the txt file
+    while(woptxt.get(ch)){
+        //Look up the current character in the map to find its encoded value. For example if 1st char is 'M', 'M' will be in 'ch'
+        auto it = codes.find(ch);   //if character is found, 'it' will point to that key and its value pair
+        
+        //if loop does not reach end of map, print out the encoded value
+        if(it != codes.end()){
+            std::cout << it->second;
+        }
+        else    //if the character does not exist, print out the actual character.
+            std::cout << ch;
+        
+        
+    }
+    
+    //close the file
+    woptxt.close();
+}
