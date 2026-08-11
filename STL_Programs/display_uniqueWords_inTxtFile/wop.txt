@@ -1,0 +1,31 @@
+//This program uses a set to display each unique word in a txt file called 'wop.txt'
+//wop.txt is included in this program
+#include <iostream>
+#include <set>
+#include<fstream>
+using std::string;
+
+int main(){
+    std::set<string> setContent;    //create a set
+    
+    std::ifstream woptxt("wop.txt");    //create and open a txt file
+    string word;  //will store one word from the file at a time
+    
+    //if error opening file, display this
+    if(!woptxt){
+        std::cout << "Error opening the file.\n";
+    }
+    
+    //loop through the file, storing each word into 'everything' and then add 'everything' into the set 'setContent' which stores a unique word in the file
+    while(woptxt >> word){
+        setContent.emplace(word);
+    }
+    
+    //iterate over the set and print it
+    for(auto it = setContent.begin(); it != setContent.end(); it++){
+        std::cout << *it << "\n";
+    }
+    
+    //close the file
+    woptxt.close();
+}
